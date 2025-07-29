@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <!-- Breadcrumb -->
+  <p>
+    <a href="{% url 'cheese_list' %}">← Volver a la Lista de Quesos</a>
+  </p>
+
+  <h2>{{ object.name }}</h2>
+  <p>{{ object.description|linebreaksbr }}</p>
+  {% if object.country %}<p>Origen: {{ object.country.name }}</p>{% endif %}
+  <p>Agregado por: 
+    <a href="{% url 'users:detail' object.added_by.username %}">
+      {{ object.added_by.username }}
+    </a> el {{ object.created_at|date:"d M Y H:i" }}
+  </p>
+  <p>
+    <a href="{% url 'cheese_update' object.pk %}" class="btn btn-primary">Editar</a>
+    <a href="{% url 'cheese_delete' object.pk %}" class="btn btn-danger">Eliminar</a>
+    <a href="{% url 'cheese_list' %}" class="btn btn-secondary">Volver al listado</a>
+  </p>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Lista de Quesos</h2>
+
+  {% if object_list %}
+    <ul>
+      {% for cheese in object_list %}
+        <li>
+          <a href="{% url 'cheese_detail' cheese.pk %}">
+            {{ cheese.name }}
+          </a>
+          <span class="badge bg-secondary">{{ cheese.get_firmness_display }}</span>
+          {% if cheese.country %}({{ cheese.country.name }}){% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="alert alert-info">No hay quesos para mostrar. ¡Sé el primero en agregar uno!</p>
+  {% endif %}
+
+  {% if is_paginated %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">« Anterior</a>
+      {% endif %}
+      <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Siguiente »</a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+    {% if not user.is_authenticated %}
+        <p class="alert alert-info">
+            <a href="{% url 'account_login' %}?next={{ request.path }}">Inicia sesión</a> para poder agregar, editar o eliminar quesos.
+        </p>
+    {% endif %}
+
+  <p>
+    {% if user.is_authenticated %}
+      <a href="{% url 'cheese_add' %}" class="btn btn-success">+ Agregar Queso</a>
+    {% endif %}
+  </p>
+
+{% endblock %}

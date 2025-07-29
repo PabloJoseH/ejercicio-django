@@ -4,8 +4,22 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
+from everycheese.cheeses.views import (
+    CheeseListView, CheeseCreateView, CheeseDetailView,
+    CheeseUpdateView, CheeseDeleteView, CheeseAddCustomView
+)
 
 urlpatterns = [
+    path("cheeses/", include("everycheese.cheeses.urls", namespace="cheeses")),
+    path("cheeses/add-custom/", CheeseAddCustomView.as_view(), name="cheese_add_custom"),
+    path("cheeses/<int:pk>/delete/", CheeseDeleteView.as_view(), name="cheese_delete"),
+    path("cheeses/<int:pk>/edit/", CheeseUpdateView.as_view(), name="cheese_update"),
+    path("cheeses/<int:pk>/", CheeseDetailView.as_view(), name="cheese_detail"),
+    path("cheeses/add/", CheeseCreateView.as_view(), name="cheese_add"),
+    path(
+        "cheeses/",
+        CheeseListView.as_view(), 
+        name="cheese_list"),
     path(
         "",
         TemplateView.as_view(template_name="pages/home.html"),
