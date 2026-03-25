@@ -1,7 +1,9 @@
-EjercicioDjango
+ejercicio_django
 ==============================
 
 cap everycheese
+
+This repository is part of the Django crash course to practice development with Django.
 
 ### Quick setup
 
